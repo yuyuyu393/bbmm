@@ -1,8 +1,11 @@
 :{$PORT:8080} {
     reverse_proxy https://ygxian.jiuzhe.com.cn {
-        header_up Host {upstream_hostport}
-        header_up X-Real-IP {remote}
-        header_up X-Forwarded-For {remote}
-        header_up X-Forwarded-Proto {scheme}
+        # 强制把请求头伪装成原域名，骗过对方的防偷盗链机制
+        header_up Host ygxian.jiuzhe.com.cn.com
+        
+        # 忽略一切 SSL 证书报错，强行打通底层连接
+        transport http {
+            tls_insecure_skip_verify
+        }
     }
 }
