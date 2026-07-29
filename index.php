@@ -2,7 +2,7 @@
 // 【核心代理目标】
 $target_url = "https://ygxian.jiuzhe.com.cn"; 
 // 【刚才截图中抓到的罪魁祸首：隐藏中转域名】
-$hidden_url = "https://ygxian.jiuzhe.com.cn";
+$hidden_url = "https://dsfsdhg.jiuzhe.com.cn";
 
 $request_uri = $_SERVER['REQUEST_URI'];
 $fetch_url = rtrim($target_url, '/') . $request_uri;
