@@ -1,6 +1,6 @@
 <?php
 // 把下面双引号里的网址改成红域名，比如 "https://anvna.cn"
-$target_url = "https://ygxian.jiuzhe.com.cn/"; 
+$target_url = "https://ygxian.jiuzhe.com.cn"; 
 
 $request_uri = $_SERVER['REQUEST_URI'];
 $fetch_url = rtrim($target_url, '/') . $request_uri;
