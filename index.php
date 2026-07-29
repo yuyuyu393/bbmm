@@ -2,6 +2,18 @@
 // 【注意：双引号里面改成真实红域名】
 $target_url = "https://ygxian.jiuzhe.com.cn"; 
 
+// 1. 核心修复：添加全面的跨域头，防止前端系统的 AJAX API 接口自己拦截自己
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: *");
+header("Access-Control-Allow-Credentials: true");
+
+// 2. 核心修复：如果是前端系统的 OPTIONS 预检请求，直接返回成功，不向源站转发
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
+
 if (!function_exists('getallheaders')) {
     function getallheaders() {
         $headers = [];
@@ -27,9 +39,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-
-// 【本次核心修复：让代码自动识别并解压 Gzip/Deflate 等压缩数据】
-curl_setopt($ch, CURLOPT_ENCODING, "");
+curl_setopt($ch, CURLOPT_ENCODING, ""); // 自动解压 Gzip
 
 $method = $_SERVER['REQUEST_METHOD'];
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
@@ -48,9 +58,8 @@ foreach (getallheaders() as $name => $value) {
     } elseif ($name_lower === 'referer' || $name_lower === 'origin') {
         $headers[] = "$name: $target_url"; 
     } elseif ($name_lower === 'accept-encoding') {
-        // 【本次核心修复：过滤掉用户的压缩请求，强制原站返回我们可以处理的格式】
         continue;
-    } elseif ($name_lower !== 'content-length') { 
+    } elseif ($name_lower !== 'content-length' && $name_lower !== 'host') { 
         $headers[] = "$name: $value";
     }
 }
