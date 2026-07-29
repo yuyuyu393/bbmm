@@ -1,0 +1,8 @@
+:{$PORT:8080} {
+    reverse_proxy https://ygxian.jiuzhe.com.cn {
+        header_up Host {upstream_hostport}
+        header_up X-Real-IP {remote}
+        header_up X-Forwarded-For {remote}
+        header_up X-Forwarded-Proto {scheme}
+    }
+}
