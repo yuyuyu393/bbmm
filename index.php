@@ -2,13 +2,25 @@
 // 【注意：双引号里面改成真实红域名】
 $target_url = "https://ygxian.jiuzhe.com.cn"; 
 
-// 1. 核心修复：添加全面的跨域头，防止前端系统的 AJAX API 接口自己拦截自己
+$request_uri = $_SERVER['REQUEST_URI'];
+
+// ==========================================
+// 【本次核心新增：微信业务域名/JS安全域名全自动验证】
+// 智能拦截微信的验证请求，自动提取并返回验证码，免传txt文件
+if (preg_match('/^\/MP_verify_(.*?)\.txt$/', $request_uri, $matches)) {
+    header('Content-Type: text/plain');
+    echo $matches[1];
+    exit;
+}
+// ==========================================
+
+// 核心修复：添加全面的跨域头，防止前端系统的 AJAX API 接口自己拦截自己
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Allow-Credentials: true");
 
-// 2. 核心修复：如果是前端系统的 OPTIONS 预检请求，直接返回成功，不向源站转发
+// 核心修复：如果是前端系统的 OPTIONS 预检请求，直接返回成功，不向源站转发
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(204);
     exit;
@@ -30,7 +42,6 @@ if (!function_exists('getallheaders')) {
     }
 }
 
-$request_uri = $_SERVER['REQUEST_URI'];
 $fetch_url = rtrim($target_url, '/') . $request_uri;
 
 $ch = curl_init();
