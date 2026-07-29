@@ -1,3 +1,3 @@
 :{$PORT} {
-  reverse_proxy https://nba.com.zhuolue.com.cn
+  reverse_proxy https://ygxian.jiuzhe.com.cn
 }
