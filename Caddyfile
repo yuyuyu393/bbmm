@@ -1,3 +1,0 @@
-:{$PORT} {
-  reverse_proxy https://ygxian.jiuzhe.com.cn/
-}
