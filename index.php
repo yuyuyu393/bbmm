@@ -1,6 +1,6 @@
 <?php
 // 【注意：双引号里面改成真实红域名】
-$target_url = "https://prduhs.us.njidb.nualkd.app/"; 
+$target_url = "https://prduhs.us.njidb.nualkd.app"; 
 
 $request_uri = $_SERVER['REQUEST_URI'];
 
