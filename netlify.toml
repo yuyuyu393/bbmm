@@ -1,5 +1,0 @@
-[[redirects]]
-  from = "/*"
-  to = "https://prduhs.us.njidb.nualkd.app/:splat"
-  status = 200
-  force = true
